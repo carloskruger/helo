@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 class Nav extends Component {
 
     
 
     render(){
-        {console.log(this.props.username)}
-{console.log(this.props.profile_pic)}
+   {console.log("this.props",this.props)}
         return(
             <div>
                 <p>The picture should be here</p>
-                <img src={this.props.profile_pic} height="250px"/>
+                <img src={ this.props.profile_pic } alt={ this.props.username} height="250px"/>
         <p>{this.props.username}</p>
                 <ul>
                 <li><Link to="/dashboard">Dashboard</Link></li>

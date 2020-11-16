@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import {loginUser} from '../../ducks/reducer';
+import {registerUser} from '../../ducks/reducer';
 
 
 class Auth extends Component {
@@ -26,7 +27,9 @@ class Auth extends Component {
         const {username, password} = this.state
         try {
             const user = await axios.post('/auth/register', {username, password})
-            this.props.loginUser(user.data)
+            console.log("register user : ", user)
+            console.log("register user.data : ", user.data)
+            this.props.registerUser(user.data)
             this.props.history.push('/dashboard')
         } 
         catch(err){ 
@@ -39,6 +42,9 @@ class Auth extends Component {
         const {username, password} = this.state
         try {
             const user = await axios.post('/auth/login', {username, password})
+            console.log("We are at the logoin function at Auth front end")
+            console.log("login user", user)
+            console.log("login user.data", user.data)
             this.props.loginUser(user.data)
             this.props.history.push('/dashboard')
         } 
@@ -72,4 +78,4 @@ class Auth extends Component {
 
 const mapStateToProps = state => state
 
-export default connect(mapStateToProps, {loginUser})(Auth)
+export default connect(mapStateToProps, {loginUser, registerUser})(Auth)

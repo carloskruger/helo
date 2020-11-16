@@ -3,6 +3,17 @@ const bcrypt = require('bcrypt');
 module.exports = {
 
  
+
+    getPosts: (req, res) => {
+        const db = req.app.get('db');
+        const { id } = req.params;
+        const {userposts, search} = req.query;
+
+    },
+    
+    
+
+ 
     register: async (req, res) => {
         const db = req.app.get('db');
         const { username, password } = req.body;
@@ -17,7 +28,7 @@ module.exports = {
         const profile_pic = `https://robohash.org/${username}`
         const [newUser] = await db.add_user([username, hash, profile_pic]);
         req.session.user = {
-            userId: newUser.user_id, 
+            userId: newUser.id, 
             username: newUser.username,
             profile_pic: newUser.profile_pic
         }
@@ -27,15 +38,16 @@ login: async (req, res) => {
     const db = req.app.get('db');
 
     const { username, password} = req.body;
-    const [foundUser] = await db.check_user(username);
+    const [foundUser] = await db.check_user([username]);
     if(!foundUser){
         return res.status(401).send("Incorrect login information")
     }
     const authenticated = bcrypt.compareSync(password, foundUser.password);
     if( authenticated ){
         req.session.user = {
-            userId: foundUser.user_id,
-            username: foundUser.username
+            userId: foundUser.id,
+            username: foundUser.username,
+            profile_pic: foundUser.profile_pic
         }
         res.status(200).send(req.session.user);
     } else {
@@ -51,12 +63,6 @@ logout: (req, res) => {
 
 },
 
-getUser: (req, res) => {
-    if(req.session.user){
-        res.status(200).send(req.session.user)
-    } else {
-        res.status(404).send('Please log in')
-    }
-}
+
 
 }
