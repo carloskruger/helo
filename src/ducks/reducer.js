@@ -1,7 +1,7 @@
 const initialState = {
-    id: null,
+    user: {id: null,
     username: '',
-    profile_pic: ''
+    profile_pic: ''}
 }
 
 const REGISTER_USER = "REGISTER_USER";
@@ -43,7 +43,7 @@ export default function reducer(state = initialState, action){
         case REGISTER_USER:
             return {...state, user: action.payload, isLoggedIn: true}
         case LOGIN_USER:
-            return {...state, user: action.payload, isLoggedIn: true}
+            return {...state,user: action.payload, isLoggedIn: true}
         case LOGOUT_USER:
             return {...state, ...action.payload}
         default:

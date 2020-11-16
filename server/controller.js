@@ -4,10 +4,13 @@ module.exports = {
 
  
 
-    getPosts: (req, res) => {
+    getPosts: async (req, res) => {
         const db = req.app.get('db');
         const { id } = req.params;
         const {userposts, search} = req.query;
+        let posts = await db.get_allPosts()
+        // console.log(posts);
+        res.status(200).send(posts);
 
     },
     

@@ -7,17 +7,25 @@ class Dashboard extends Component {
         super();
         this.state = {
             myPosts: true,
-            posts : []          
+            // posts : []
+            posts:
+
+            [
+                { title: 'Post 1',profile_pic: 'https://robohash.org/edo',content: 'This is content for post 1', username: "edo" }, 
+                { title: 'Post 2',profile_pic:'https://robohash.org/tere',content:'This is content for post 2', username: "tere"},
+                { title: 'Post 3',profile_pic: 'https://robohash.org/tere',content: 'This is content for post 3', username: "tere"}
+            ]
         }
     }
 
     componentDidMount(){
-
-        // I need to get id from the state
         // const {id  } = this.props.id
+        // this probaby needs to be in the reducer and I have to import it
         const id = 7;
            axios.get(`/api/getposts/${id}`).then(res => {
-         this.setState({posts: res.data})
+               console.log("res.data: ", res.data)
+               console.log("res: ", res)
+        //  this.setState({posts: res.data})
         })
     }
 
@@ -34,7 +42,7 @@ class Dashboard extends Component {
                 {
                     this.state.posts.map((post, index) => (
     
-                        <Post title= {post.title}  profile_pic={ post.profile_pic}  content={post.content} username={post.username}  />
+                        <Post title= {post.title} img= {post.img} profile_pic={ post.profile_pic}  content={post.content} username={post.username}  />
                      )
                      )
                 }

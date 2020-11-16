@@ -7,16 +7,14 @@ class Nav extends Component {
     
 
     render(){
-   {console.log("this.props",this.props)}
+
         return(
             <div>
-                <p>The picture should be here</p>
-                <img src={ this.props.profile_pic } alt={ this.props.username} height="250px"/>
-        <p>{this.props.username}</p>
-                <ul>
-                <li><Link to="/dashboard">Dashboard</Link></li>
-                <li><Link to="/post/:postid">New Post</Link></li>
-                <li><Link to="/">logout</Link></li>
+                <img src={ this.props.user.profile_pic } alt={ this.props.user.username} height="100px"/>
+                <ul>   
+                    <li><Link to="/dashboard">Home</Link></li>
+                    <li><Link to="/new">New Post</Link></li>
+                    <li><Link to="/">logout</Link></li>
                 </ul>
             </div>
         )
