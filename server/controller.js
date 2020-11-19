@@ -2,7 +2,39 @@ const bcrypt = require('bcrypt');
 
 module.exports = {
 
+    deletePost: async (req, res) => {
+        const db = req.app.get('db');
+        const { postid } = req.params;
+    
+        let post = await db.deleteByPostId([postid])
+        console.log("post coming back from getaPost: ",post);
+        res.status(200).send(post);
+
+    },
+
+
+    getaPost: async (req, res) => {
+        const db = req.app.get('db');
+        const { postid } = req.params;
+    
+        let post = await db.get_postByPostId([postid])
+        console.log("post coming back from getaPost: ",post);
+        res.status(200).send(post);
+
+    },
+
+
  
+    getaPost: async (req, res) => {
+        const db = req.app.get('db');
+        const { postid } = req.params;
+    
+        let post = await db.get_postByPostId([postid])
+        console.log("post coming back from getaPost: ",post);
+        res.status(200).send(post);
+
+    },
+
 
     getPosts: async (req, res) => {
         const db = req.app.get('db');
@@ -13,6 +45,19 @@ module.exports = {
         res.status(200).send(posts);
 
     },
+
+    addPost: async (req, res) => {
+        const db = req.app.get('db');
+        const {  title,
+            img,
+            content,
+            author_id} = req.body
+        let posts = await db.add_post([title, img, content, author_id])
+        // console.log(posts);
+        res.status(200).send(posts);
+
+    },
+    
     
     
 

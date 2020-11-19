@@ -33,7 +33,7 @@ class Auth extends Component {
             this.props.history.push('/dashboard')
         } 
         catch(err){ 
-                alert(err.response.request.response)
+                console.log(err)
         }
     }
 
@@ -49,7 +49,7 @@ class Auth extends Component {
             this.props.history.push('/dashboard')
         } 
         catch(err){ 
-                alert(err.response.request.response)
+                alert(err)
         }
     }
 

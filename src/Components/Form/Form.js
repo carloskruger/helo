@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
 
 
 class Form extends Component {
@@ -6,7 +8,9 @@ class Form extends Component {
     constructor(){
         super();
         this.state = {
-
+            title: '',
+            img: '',
+            content: '',
         }
         this.changeHandler = this.changeHandler.bind(this)
     }
@@ -16,10 +20,27 @@ class Form extends Component {
             [e.target.name]: e.target.value
         })
     }
+
+    addPost = async (e) => {
+        e.preventDefault();
+        const {title, img, content} = this.state
+        const id = this.props.user.userId
+        const author_id = +id;
+        try {
+            const post = await axios.post('/api/addpost', {title, img, content, author_id})
+       
+            this.props.history.push('/dashboard')
+        } 
+        catch(err){ 
+                console.log(err => console.log(err))
+        }
+    }
+
     
 
 render(){
-const {} = this.
+    { console.log("This is from Form user.userId", this.props.user.userId)}
+
     return(
         <div className="formarea">
             <h1>New Post</h1>
@@ -28,19 +49,19 @@ const {} = this.
           
                 <input name="title"
                     type="text"
-                    value = {title }
+                    value = {this.state.title }
                     placeholder="title"
                     onChange={ e => this.changeHandler(e)}
                 />
             </div>
             <div>  
-                <img src={img} alt="myImage"/>
+                <img src={this.state.img} alt="myImage"/>
             </div>
             <div>   
                 <span>Image URL</span>
                 <input name="img"
                 type="text"
-                value= {img}
+                value= {this.state.img}
                 placeholder="image URL"
                 onChange={ e => this.changeHandler(e)}
 
@@ -51,12 +72,13 @@ const {} = this.
                 <input 
                 name="content"
                 type="text"
+                value={this.state.content}
                 placeholder="content"
                 onChange={ e => this.changeHandler(e)}
                 /> 
             </div>
             <div>  
-                 <button>Post</button>
+            <button onClick={e => this.addPost(e)}>Post</button>
             </div>
         </div>
     )
@@ -66,4 +88,7 @@ const {} = this.
 
 }
 
-export default Form;
+const mapStateToProps = state => state
+
+export default connect(mapStateToProps)(Form);
+
