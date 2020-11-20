@@ -5,16 +5,31 @@ import Auth from './Components/Auth/Auth';
 import Dashboard from './Components/Dashboard/Dashboard';
 import Form from './Components/Form/Form';
 import Post from './Components/Post/Post';
+import { connect } from 'react-redux';
 import routes from './routes';
+import {withRouter} from 'react-router-dom';
+import React, {Component} from 'react';
+import { render } from '@testing-library/react';
 
-function App() {
+class App extends Component {
 
+
+
+render(){
+// {console.log("this.props.location.pathname", this.props.location.pathname) }
   return (
+  
     <div className="App">
-      <Nav></Nav>
-    {routes}
-    </div>
-  );
-}
 
-export default App;
+       {this.props.location.pathname!=='/' && <Nav/>}
+         {routes}
+
+     </div>
+
+  )
+}
+  }
+
+const mapStateToProps = state => state
+
+export default withRouter (connect(mapStateToProps)(App));

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import {loginUser} from '../../ducks/reducer';
 import {registerUser} from '../../ducks/reducer';
+import Nav from '../Nav/Nav';
 
 
 class Auth extends Component {
@@ -56,6 +57,7 @@ class Auth extends Component {
 
     render(){
         console.log("this.props.location.pathname: ",this.props.location.pathname )
+        {this.props.location.pathname !== '/' && <Nav />}
         const {username, password, profile_pic} = this.state;
         return(
             <div>

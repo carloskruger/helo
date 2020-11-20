@@ -39,10 +39,17 @@ module.exports = {
     getPosts: async (req, res) => {
         const db = req.app.get('db');
         const { id } = req.params;
-        const {userposts, search} = req.query;
+        const {myPosts, search_string} = req.query;
+        console.log("myPosts", myPosts)
+        if (myPosts&&!search_string){
+            let posts = await db.get_AllPostsByUserId(id)
+             return res.status(200).send(posts);
+        }
+        if (myPosts==false&&!search_string){
         let posts = await db.get_allPosts()
         // console.log(posts);
-        res.status(200).send(posts);
+        return res.status(200).send(posts);
+        }
 
     },
 

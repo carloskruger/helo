@@ -10,7 +10,8 @@ class Dashboard extends Component {
         super();
         this.state = {
             myPosts: true,
-            posts : []
+            posts : [],
+            search_string: '',
             
         }
     }
@@ -19,13 +20,55 @@ class Dashboard extends Component {
         const id   = this.props.user.userId
            console.log("id: ", this.props.user.userId)
       
-           axios.get(`/api/getposts/${id}`).then(res => {
+           axios.get(`/api/getposts/${id}?myPosts=${this.state.myPosts}`).then(res => {
                console.log("res.data: ", res.data)
                console.log("res: ", res)
          this.setState({posts: res.data})
         }).catch(err => console.log(err))
     }
   
+    onChangeMyPosts = () => {
+        this.setState(initialState => ({
+          myPosts: !this.state.myPosts,
+        }));
+
+      }
+
+      onChangeSearchString = (e) => {
+        this.setState(initialState => ({
+          search_string: e.target.value,
+        }));
+
+      }
+
+
+    getPosts = async (e) => {
+        console.log("getPosts gets triggered")
+        e.preventDefault();
+        const {myPosts, search_string} = this.state
+        const id = this.props.user.userId
+        let parameters = `/${id}`
+        if (myPosts === true) {
+            parameters = parameters + `?myPosts=true`
+        }
+
+        console.log("parameters", parameters)
+        
+        try {
+            const posts = await axios.get(`/api/getposts${parameters}`)
+            console.log("posts", posts)
+
+            this.setState({posts: posts.data})
+    
+        } 
+        catch(err){ 
+                console.log(err => console.log(err))
+        }
+    }
+
+    
+    
+    
 
     render(){
      
@@ -33,9 +76,10 @@ class Dashboard extends Component {
             <div>
                 <div>
             
-                <input  placeholder="Search by Title"/><button>search</button><button>reset</button>
+                <input  placeholder="Search by Title" name="search_string" value={this.state.search_string} onChange={this.onChangeSearchString}/>
+                <button onClick={e => this.getPosts(e)}>search</button><button>reset</button>
                 <span>My Posts</span>
-                <input type="checkbox" id="myposts" name="myposts" value={this.state.myPosts} checked></input>
+                <input type="checkbox" id="myPosts" name="myPosts" defaultChecked={this.state.myPosts} onChange={this.onChangeMyPosts}></input>
                 </div>
                 {/* map function */}
                     {  this.state.posts.map((post, index) => (
