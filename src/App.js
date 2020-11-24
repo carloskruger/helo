@@ -16,7 +16,7 @@ class App extends Component {
 
 
 render(){
-// {console.log("this.props.location.pathname", this.props.location.pathname) }
+
   return (
   
     <div className="App">

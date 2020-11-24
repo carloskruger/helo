@@ -1,2 +1,2 @@
-SELECT posts.title, posts.img, posts.content , users.username, users.profile_pic from posts join users on users.id =  posts.author_id
-where posts.title like $1;
+SELECT posts.id, posts.title, posts.img, posts.content , posts.author_id, users.username, users.profile_pic,  users.id FROM posts JOIN users ON users.id =  posts.author_id
+WHERE posts.title LIKE '%' || $1 || '%';

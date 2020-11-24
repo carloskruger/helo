@@ -18,11 +18,10 @@ class Dashboard extends Component {
 
     componentDidMount(){
         const id   = this.props.user.userId
-           console.log("id: ", this.props.user.userId)
+        
       
            axios.get(`/api/getposts/${id}?myPosts=${this.state.myPosts}`).then(res => {
-               console.log("res.data: ", res.data)
-               console.log("res: ", res)
+    
          this.setState({posts: res.data})
         }).catch(err => console.log(err))
     }
@@ -43,7 +42,7 @@ class Dashboard extends Component {
 
 
     getPosts = async (e) => {
-        console.log("getPosts gets triggered")
+
         e.preventDefault();
         const {myPosts, search_string} = this.state
         const id = this.props.user.userId
@@ -51,12 +50,16 @@ class Dashboard extends Component {
         if (myPosts === true) {
             parameters = parameters + `?myPosts=true`
         }
+ 
+        if (search_string) {
+            parameters = parameters + `&search_string=${search_string}`
+        }
 
-        console.log("parameters", parameters)
+
         
         try {
             const posts = await axios.get(`/api/getposts${parameters}`)
-            console.log("posts", posts)
+     
 
             this.setState({posts: posts.data})
     

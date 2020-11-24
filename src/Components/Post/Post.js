@@ -20,8 +20,7 @@ class Post extends Component {
 
          this.setState({ postid: postid})
            axios.get(`/api/post/${postid}`).then(res => {
-               console.log("res.data: ", res.data[0])
-               console.log("res: ", res)
+        
          this.setState({post: res.data[0]})
         }).catch(err => console.log(err))
     }
@@ -29,10 +28,7 @@ class Post extends Component {
     deletePost = async (e) => {
         e.preventDefault();
         const {postid} = this.state.postid;
-        console.log("this.state.postid",this.state.postid)
-        console.log("deletePost");
-        console.log("postid", postid)
-        console.log(postid);
+   
         const post_id = +postid;
         try {
          await axios.delete(`/api/post/${this.state.postid}`)
@@ -47,12 +43,12 @@ class Post extends Component {
   
 
 render(){
-    console.log("this.props called from post", this.props)
+ 
     const {post } = this.state;
-    console.log("post", post)
+  
     const {userId } = this.props.user
     let display;
-    console.log("author",post.author_id)
+   
     if (+userId === +post.author_id) 
     
 

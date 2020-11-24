@@ -7,7 +7,7 @@ module.exports = {
         const { postid } = req.params;
     
         let post = await db.deleteByPostId([postid])
-        console.log("post coming back from getaPost: ",post);
+ 
         res.status(200).send(post);
 
     },
@@ -18,37 +18,53 @@ module.exports = {
         const { postid } = req.params;
     
         let post = await db.get_postByPostId([postid])
-        console.log("post coming back from getaPost: ",post);
+    
         res.status(200).send(post);
 
     },
 
 
  
-    getaPost: async (req, res) => {
-        const db = req.app.get('db');
-        const { postid } = req.params;
-    
-        let post = await db.get_postByPostId([postid])
-        console.log("post coming back from getaPost: ",post);
-        res.status(200).send(post);
-
-    },
+ 
 
 
     getPosts: async (req, res) => {
         const db = req.app.get('db');
         const { id } = req.params;
         const {myPosts, search_string} = req.query;
-        console.log("myPosts", myPosts)
-        if (myPosts&&!search_string){
-            let posts = await db.get_AllPostsByUserId(id)
+      
+        // search string is undefined
+  
+        if (search_string != undefined){
+       
+            let posts = await db.get_PostsByQuery(search_string)
+            if (myPosts === "true") {
+                let myposts = posts.filter((post)=> +post.author_id === +id)
+                return res.status(200).send(myposts);
+            }
+         
+            else {
              return res.status(200).send(posts);
         }
-        if (myPosts==false&&!search_string){
-        let posts = await db.get_allPosts()
-        // console.log(posts);
-        return res.status(200).send(posts);
+        } 
+          // search string is defined
+        else{
+         
+          
+            let posts = await db.get_allPosts()
+          
+            if (myPosts === "true") {
+           
+                let myposts = posts.filter((post)=> +post.author_id === +id)
+   
+                return res.status(200).send(myposts);
+            }
+         
+            else {
+                return res.status(200).send(posts);
+        }
+       
+            
         }
 
     },
@@ -60,7 +76,7 @@ module.exports = {
             content,
             author_id} = req.body
         let posts = await db.add_post([title, img, content, author_id])
-        // console.log(posts);
+ 
         res.status(200).send(posts);
 
     },

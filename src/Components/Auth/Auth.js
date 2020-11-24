@@ -28,8 +28,8 @@ class Auth extends Component {
         const {username, password} = this.state
         try {
             const user = await axios.post('/auth/register', {username, password})
-            console.log("register user : ", user)
-            console.log("register user.data : ", user.data)
+        
+         
             this.props.registerUser(user.data)
             this.props.history.push('/dashboard')
         } 
@@ -43,9 +43,7 @@ class Auth extends Component {
         const {username, password} = this.state
         try {
             const user = await axios.post('/auth/login', {username, password})
-            console.log("We are at the logoin function at Auth front end")
-            console.log("login user", user)
-            console.log("login user.data", user.data)
+      
             this.props.loginUser(user.data)
             this.props.history.push('/dashboard')
         } 
@@ -56,8 +54,8 @@ class Auth extends Component {
 
 
     render(){
-        console.log("this.props.location.pathname: ",this.props.location.pathname )
-        {this.props.location.pathname !== '/' && <Nav />}
+     
+      
         const {username, password, profile_pic} = this.state;
         return(
             <div>
